@@ -7,6 +7,8 @@ node-shmw-client is a completely promise-based wrapper for the showmyhomework ap
 ### Getting all tasks for tomorrow
 
 ```js
+const ShowMyHomework = require("node-smhw-client");
+
 const Client = new ShowMyHomework.Client();
 
 Client.searchSchools("Elk Valley Elementary").then(function (school) {
@@ -32,6 +34,17 @@ Client.getHomework("homework id").then(function (homework) {
 	homework.getOwnSubmission().then(function (submission) {
 		submission.getComments().then(function (comments) {
 			console.log(comments); // Array of SubmissionComment objects
+		});
+	});
+});
+```
+
+### Getting your spelling test submission answers
+```js
+Client.getSpellingTest("spelling test id").then(function (spelling_test) {
+	spelling_test.getOwnSubmission().then(function (submission) {
+		submission.getSubmissionTasks().then(function (tasks) {
+			console.log(tasks.map(_ => _.attempt1.text));
 		});
 	});
 });

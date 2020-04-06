@@ -1,4 +1,4 @@
-const SpellingTestSubmissionAttempt = require("./SpellingTestSubmissionTask.js");
+const SpellingTestSubmissionAttempt = require("./SpellingTestSubmissionAttempt.js");
 
 class SpellingTestSubmissionTask {
 	constructor(client, response) {

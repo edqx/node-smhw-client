@@ -25,7 +25,7 @@ class SpellingTestSubmission extends Submission {
 		}
 		
 		return new Promise(function (resolve, reject) {
-			_this.client.make("GET", "/api/spelling_test_submission_tasks?" + questions, {
+			_this.client.make("GET", "/api/spelling_test_submission_tasks?" + tasks, {
 				referer: "/spelling-tests/" + _this.spelling_test_id
 			})
 			.then(function (response) {
