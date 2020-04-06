@@ -1,8 +1,7 @@
-const BaseSubmission = require("./BaseSubmission.js");
-
+const Submission = require("./Submission.js");
 const SubmissionComment = require("./SubmissionComment.js");
 
-class HomeworkSubmission extends BaseSubmission {
+class HomeworkSubmission extends Submission {
 	constructor(client, response) {
 		super(client, response);
 		
@@ -17,49 +16,26 @@ class HomeworkSubmission extends BaseSubmission {
 		this.current_submission_version_id = response.current_submission_version_id;
 	}
 	
-	getComments(...ids) {
-		var _this = this;
-		
-		if (Array.isArray(ids[0])) {
-			ids = ids[0];
-		}
-		
-		return new Promise(function (resolve, reject) {
-			_this.client.make("GET", "/api/homework_submissions/" + _this.homework_id + "-" + _this.student_id, {
-				referer: "/todos/issued"
-			})
-			.then(function (response) {
-				var comments = response.submission_comments.map(_ => new SubmissionComment(_this.client, _));
-				
-				if (ids.length) {
-					resolve(comments.filter(_ => ids.indexOf(_.id) > -1));
-				} else {
-					resolve(comments);
-				}
-			}).catch(function(err) {
-				reject(err);
-			});
-		});
-	}
-	
 	postComment(content) {
 		var _this = this;
 		
 		return new Promise(function (resolve, reject) {
-			_this.client.make("POST", "/api/submission_comments/" + _this.homework_id + "-" + _this.student_id, {
+			_this.client.make("POST", "/api/submission_comments/", {
 				payload: {
-					text: content,
-					created_at: null,
-					updated_at: null,
-					user_name: null,
-					user_id: null,
-					submission_id: _this.homework_id,
-					submission_type: "HomeworkSubmission"
+					submission_comment: {
+						text: content,
+						created_at: null,
+						updated_at: null,
+						user_name: null,
+						user_id: null,
+						submission_id: _this.id,
+						submission_type: "HomeworkSubmission"
+					}
 				},
 				referer: "/todos/issued"
 			})
 			.then(function (response) {
-				resolve(new SubmissionComment(response.submission_comment));
+				resolve(new SubmissionComment(_this.client, response.submission_comment));
 			}).catch(function(err) {
 				reject(err);
 			});

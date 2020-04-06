@@ -18,9 +18,11 @@ const Task = require("./Task.js");
 const Homework = require("./Homework.js");
 const Quiz = require("./Quiz.js");
 const FlexibleTask = require("./FlexibleTask.js");
+const SpellingTest = require("./SpellingTest.js");
 const HomeworkSubmission = require("./HomeworkSubmission.js");
 const QuizSubmission = require("./QuizSubmission.js");
 const FlexibleTaskSubmission = require("./FlexibleTaskSubmission.js");
+const SpellingTestSubmission = require("./SpellingTestSubmission.js");
 
 const API_BASE_URL = "api.showmyhomework.co.uk";
 const SATCHELONE = "https://www.satchelone.com"
@@ -139,20 +141,6 @@ class Client extends EventEmitter {
 		});
 	}
 	
-	getQuiz(id) {
-		var _this = this;
-		
-		return new Promise(function (resolve, reject) {
-			_this.make("GET", "/api/quizzes/" + id, {
-				referer: "/todos/issused"
-			}).then(function (response) {
-				resolve(new Quiz(_this, response.quiz));
-			}).catch(function(err) {
-				reject(err);
-			});
-		});
-	}
-	
 	getHomework(id) {
 		var _this = this;
 		
@@ -161,6 +149,20 @@ class Client extends EventEmitter {
 				referer: "/todos/issused"
 			}).then(function (response) {
 				resolve(new Homework(_this, response.homework));
+			}).catch(function(err) {
+				reject(err);
+			});
+		});
+	}
+	
+	getQuiz(id) {
+		var _this = this;
+		
+		return new Promise(function (resolve, reject) {
+			_this.make("GET", "/api/quizzes/" + id, {
+				referer: "/todos/issused"
+			}).then(function (response) {
+				resolve(new Quiz(_this, response.quiz));
 			}).catch(function(err) {
 				reject(err);
 			});
@@ -181,14 +183,14 @@ class Client extends EventEmitter {
 		});
 	}
 
-	getQuizSubmission(id) {
+	getSpellingTest(id) {
 		var _this = this;
 		
 		return new Promise(function (resolve, reject) {
-			_this.make("GET", "/api/quiz_submissions/" + id, {
+			_this.make("GET", "/api/spelling_tests/" + id, {
 				referer: "/todos/issused"
 			}).then(function (response) {
-				resolve(new QuizSubmission(_this, response.quiz));
+				resolve(new SpellingTest(_this, response.spelling_test));
 			}).catch(function(err) {
 				reject(err);
 			});
@@ -202,7 +204,21 @@ class Client extends EventEmitter {
 			_this.make("GET", "/api/homework_submissions/" + id, {
 				referer: "/todos/issused"
 			}).then(function (response) {
-				resolve(new HomeworkSubmission(_this, response.homework));
+				resolve(new HomeworkSubmission(_this, response.homework_submission));
+			}).catch(function(err) {
+				reject(err);
+			});
+		});
+	}
+		
+	getQuizSubmission(id) {
+		var _this = this;
+		
+		return new Promise(function (resolve, reject) {
+			_this.make("GET", "/api/quiz_submissions/" + id, {
+				referer: "/todos/issused"
+			}).then(function (response) {
+				resolve(new QuizSubmission(_this, response.quiz_submission));
 			}).catch(function(err) {
 				reject(err);
 			});
@@ -216,7 +232,21 @@ class Client extends EventEmitter {
 			_this.make("GET", "/api/flexible_task_submissions/" + id, {
 				referer: "/todos/issused"
 			}).then(function (response) {
-				resolve(new FlexibleTaskSubmission(_this, response.homework));
+				resolve(new FlexibleTaskSubmission(_this, response.flexible_task_submission));
+			}).catch(function(err) {
+				reject(err);
+			});
+		});
+	}
+	
+	getSpellingTestSubmission(id) {
+		var _this = this;
+		
+		return new Promise(function (resolve, reject) {
+			_this.make("GET", "/api/spelling_test_submissions/" + id, {
+				referer: "/todos/issused"
+			}).then(function (response) {
+				resolve(new SpellingTestSubmission(_this, response.spelling_test_submission));
 			}).catch(function(err) {
 				reject(err);
 			});

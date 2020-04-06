@@ -1,35 +1,35 @@
 const Submission = require("./Submission.js");
-const QuizSubmissionQuestion = require("./QuizSubmissionQuestion.js");
 const SubmissionComment = require("./SubmissionComment.js");
+const SpellingTestSubmissionTask = require("./SpellingTestSubmissionTask.js");
 
-class QuizSubmission extends Submission {
+class SpellingTestSubmission extends Submission {
 	constructor(client, response) {
 		super(client, response);
 		
-		this.quiz_id = response.quiz_id;
-		this.question_ids = response.question_ids;
+		this.task_ids = response.task_ids;
+		this.spelling_test_id = response.spelling_test_id;
 	}
 	
-	getSubmissionQuestions(...ids) {
+	getSubmissionTasks(...ids) {
 		var _this = this;
 		
 		if (Array.isArray(ids[0])) {
 			ids = ids[0];
 		}
 		
-		var questions;
+		var tasks;
 		if (ids.length) {
-			questions = ids.map(qid => "ids%5B%5D=" + qid).join("&");
+			tasks = ids.map(tid => "ids%5B%5D=" + tid).join("&");
 		} else {
-			questions = _this.question_ids.map(qid => "ids%5B%5D=" + qid).join("&");
+			tasks = _this.task_ids.map(tid => "ids%5B%5D=" + tid).join("&");
 		}
 		
 		return new Promise(function (resolve, reject) {
-			_this.client.make("GET", "/api/quiz_submission_questions?" + questions, {
-				referer: "/quizzes/" + _this.quiz_id
+			_this.client.make("GET", "/api/spelling_test_submission_tasks?" + questions, {
+				referer: "/spelling-tests/" + _this.spelling_test_id
 			})
 			.then(function (response) {
-				resolve(response.quiz_submission_questions.map(_ => new QuizSubmissionQuestion(_this.client, _)));
+				resolve(response.spelling_test_submission_tasks.map(_ => new SpellingTestSubmissionTask(_this.client, _)));
 			}).catch(function(err) {
 				reject(err);
 			});
@@ -49,7 +49,7 @@ class QuizSubmission extends Submission {
 						user_name: null,
 						user_id: null,
 						submission_id: _this.id,
-						submission_type: "QuizSubmission"
+						submission_type: "SpellingTestSubmission"
 					}
 				},
 				referer: "/todos/issued"
@@ -63,4 +63,4 @@ class QuizSubmission extends Submission {
 	}
 }
 
-module.exports = QuizSubmission;
+module.exports = SpellingTestSubmission;
