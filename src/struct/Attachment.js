@@ -18,20 +18,6 @@ class Attachment {
 		this.is_previewable = response.is_previewable;
 		this.for_logged_in_only = response.for_logged_in_only;
 	}
-	
-	download(path) {
-		var writestream = fs.createWriteStream(path);
-		
-		var _this = this;
-		
-		return new Promise(function (resolve, reject) {
-			const request_options = {};
-		
-			https.get(_this.file_url, function (res) {
-				res.pipe(writestream);
-			});
-		});
-	}
 }
 
 module.exports = Attachment;

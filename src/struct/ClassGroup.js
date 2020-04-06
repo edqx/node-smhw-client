@@ -7,7 +7,7 @@ class ClassGroup extends ClassGroupIncomplete {
 		this.links = response.links;
 		this.student_ids = response.student_ids;
 		this.teacher_ids = response.teacher_ids;
-		this.left_at = response.left_at;
+		this.left_timestamp = new Date(response.left_at).getTime();
 		
 		this.incomplete = false;
 	}

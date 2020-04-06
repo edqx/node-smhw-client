@@ -1,3 +1,5 @@
+const Attachment = require("./Attachment.js");
+
 class Assignment {
 	constructor(client, response) {
 		this.client = client;
