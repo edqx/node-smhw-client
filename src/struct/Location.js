@@ -1,7 +1,5 @@
 class Location {
-	constructor(client, response) {
-		this.client = client;
-		
+	constructor(response) {
 		this.address = response.address;
 		this.town = response.town;
 		this.postcode = response.postcode;

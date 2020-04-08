@@ -1,3 +1,5 @@
+const SubmissionComment = require("./SubmissionComment.js");
+
 class Submission {
 	constructor(client, response) {
 		this.client = client;

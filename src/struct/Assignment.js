@@ -6,19 +6,19 @@ class Assignment {
 		
 		this.id = response.id;
 		this.teacher_id = response.teacher_id;
+		this.teacher_name = response.teacher_name;
 		this.title = response.title;
 		this.subject = response.subject;
 		this.due_timestamp = new Date(response.due_on).getTime();
 		this.issued_timestamp = new Date(response.issued_on).getTime();
-		this.class_group_id = response.class_group_id;
 		this.created_timestamp = new Date(response.created_at).getTime();
 		this.updated_timestamp = new Date(response.updated_at).getTime();
 		this.published_timestamp = new Date(response.published_at).getTime();
+		this.class_group_id = response.class_group_id;
+		this.class_group_name = response.class_group_name;
 		this.purpose = response.purpose;
 		this.year = response.year;
-		this.class_group_name = response.class_group_name;
 		this.submission_status = response.submission_status;
-		this.teacher_name = response.teacher_name;
 		this.submission_ids = response.submission_ids;
 		this.has_unread_comments = response.has_unread_comments;
 		this.school_id = response.school_id;

@@ -4,7 +4,7 @@ const FlexibleTaskSubmission = require("./FlexibleTaskSubmission.js");
 
 class FlexibleTask extends Assignment {
 	constructor(client, response) {
-		this.client = client;
+		super(client, response);
 		
 		this.marking_scheme_id = response.marking_scheme_id;
 		this.duration = response.duration;

@@ -15,7 +15,7 @@ class QuizSubmissionQuestion {
 		this.attempt3 = response.attempt3 ? new QuizSubmissionAttempt(response.attempt3) : null;
 	}
 	
-	setStarted(attempt, date = new Date().getTime()) {
+	setStarted(attempt, date = new Date()) {
 		var _this = this;
 		
 		if (_this["attempt" + attempt]) {
@@ -27,7 +27,7 @@ class QuizSubmissionQuestion {
 		var copy = new QuizSubmissionQuestion(_this.client, _this);
 		
 		copy["attempt" + attempt] = new QuizSubmissionAttempt({
-			start: new Date(date).toISOString(),
+			start: date.toISOString(),
 			answer: null,
 			correct: false
 		});

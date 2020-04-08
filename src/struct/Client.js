@@ -36,10 +36,8 @@ function pad_left(v, a) {
 	return "0".repeat(a - v.length) + v;
 }
 
-class Client extends EventEmitter {
+class Client {
 	constructor(options) {
-		super();
-		
 		this.options = options;
 		
 		this.access = new Access(this, {});
@@ -68,8 +66,6 @@ class Client extends EventEmitter {
 				referer: "/calendar/personal"
 			}).then(function (response) {
 				_this.last_heartbeat = response.time;
-				
-				_this.emit("Pulse");
 			}).catch(function(err) {
 				reject(err);
 			});
@@ -77,7 +73,9 @@ class Client extends EventEmitter {
 	}
 	
 	stopHeartbeat() {
-		clearInterval(this.heartbeat);
+		if (this.heartbeat) {
+			clearInterval(this.heartbeat);
+		}
 	}
 	
 	login(school_id, username, password) {
@@ -111,7 +109,6 @@ class Client extends EventEmitter {
 					_this.user = new UserPrivateInfo(_this, response.user_private_infos[0]);
 					
 					resolve(true);
-					_this.emit("Ready");
 					
 					if (_this.options.keep_heartbeat) {
 						_this.heartbeat = setInterval(function () {
@@ -279,14 +276,14 @@ class Client extends EventEmitter {
 		});
 	}
 	
-	searchSchools(term, options = {}) {
+	searchSchools(term, limit) {
 		var _this = this;
 		
 		return new Promise(function (resolve, reject) {
 			_this.make("GET", "/api/public/school_search", {
 				query: {
 					filter: term,
-					limit: options.limit || 20
+					limit: limit || 20
 				}
 			}).then(function (response) { // Response returns an array of incomplete school objects.
 				resolve(response.schools.map(_ => new SchoolIncomplete(_this, _)));

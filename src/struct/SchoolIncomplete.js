@@ -1,5 +1,4 @@
 const Location = require("./Location.js");
-
 const SchoolPrivateInfo = require("./SchoolPrivateInfo.js");
 const Teacher = require("./Teacher.js");
 const ClassYear = require("./ClassYear.js");
@@ -10,7 +9,7 @@ class SchoolIncomplete {
 	constructor(client, response) {
 		this.client = client;
 		
-		this.location = new Location(client, response);
+		this.location = new Location(response);
 		
 		this.id = response.id;
 		this.name = response.name;

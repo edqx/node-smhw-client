@@ -1,5 +1,4 @@
 const ContactInfo = require("./ContactInfo");
-const Location = require("./Location.js");
 const SchoolIncomplete = require("./SchoolIncomplete.js");
 
 class School extends SchoolIncomplete {

@@ -1,7 +1,7 @@
 # node-shmw-client
 [npm repository](http://npmjs.com/package/node-smhw-client)
 
-node-shmw-client is a completely promise-based wrapper for the showmyhomework api. Unfortunately there doesn't actually seem to be any real support for the api other than for the website and for the app, so documentation is very limited other than what I could find on the networks tab on Chrome and looking around the pages. This means the code might be inconsistent or messy at times.
+node-shmw-client is a completely promise-based wrapper for the showmyhomework api.
 
 ## Examples
 ### Getting all tasks for tomorrow
@@ -51,4 +51,4 @@ Client.getSpellingTest("spelling test id").then(function (spelling_test) {
 ```
 
 ## Other
-Might write documentation if anyone uses this, but for now just look around. I am not responsible for anything you do using this library.
+Full documentation is available on the wiki [here](https://github.com/edqx/node-smhw-client/wiki). I am not responsible for anything you do using this library.

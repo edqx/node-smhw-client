@@ -6,8 +6,8 @@ class SpellingTestSubmission extends Submission {
 	constructor(client, response) {
 		super(client, response);
 		
-		this.task_ids = response.task_ids;
 		this.spelling_test_id = response.spelling_test_id;
+		this.task_ids = response.task_ids;
 	}
 	
 	getSubmissionTasks(...ids) {

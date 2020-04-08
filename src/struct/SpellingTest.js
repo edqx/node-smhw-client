@@ -7,10 +7,10 @@ class SpellingTest extends Assignment {
 	constructor(client, response) {
 		super(client, response);
 		
+		this.random_order = response.random_order;
 		this.time_limit = response.time_limit;
 		this.language = response.language;
 		this.voice_key = response.voice_key;
-		this.random_order = response.random_order;
 		this.tray_ids = response.tray_ids;
 	}
 	

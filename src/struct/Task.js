@@ -41,8 +41,8 @@ class Task {
 				}
 			})
 			.then(function (response) {
-				resolve(true);
 				_this.completed = true;
+				resolve(_this);
 			}).catch(function(err) {
 				reject(err);
 			});
@@ -71,8 +71,8 @@ class Task {
 				}
 			})
 			.then(function (response) {
-				resolve(true);
 				_this.completed = false;
+				resolve(_this);
 			}).catch(function(err) {
 				reject(err);
 			});
@@ -86,6 +86,8 @@ class Task {
 			return this.client.getQuiz(this.id);
 		} else if (this.type === "FlexibleTask") {
 			return this.client.getFlexibleTask(this.id);
+		} else if (this.type === "SpellingTest") {
+			return this.client.getSpellingTest(this.id);
 		}
 	}
 }
