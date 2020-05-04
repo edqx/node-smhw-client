@@ -80,6 +80,33 @@ class Client {
 	
 	login(school_id, username, password) {
 		var _this = this;
+
+		if (typeof school_id === "object") {
+			return new Promise(function (resolve, reject) {
+				_this.access = new Access(school_id);
+
+				_this.make("GET", "/api/students/" + _this.access.user_id, {
+					query: {
+						include: "user_private_info,school",
+					}
+				}).then(function (response) {
+					_this.student = new Student(_this, response.student, new School(_this, response.schools[0]));
+					_this.user = new UserPrivateInfo(_this, response.user_private_infos[0]);
+					
+					resolve(true);
+					
+					if (_this.options.keep_heartbeat) {
+						_this.heartbeat = setInterval(function () {
+							_this.makeHeartbeat();
+						}, 15000);
+					}
+				}).catch(function (err) {
+					reject(err);
+				});
+			});
+
+			return;
+		}
 		
 		return new Promise(function (resolve, reject) {
 			_this.make("POST", "/oauth/token", {
@@ -98,7 +125,14 @@ class Client {
 				},
 				referrer: "/login"
 			}).then(function (response) {
-				_this.access = new Access(_this, response);
+				if (response.errors) {
+					reject({
+						code: "INVCRED"
+					});
+					return;
+				}
+
+				_this.access = new Access(response);
 				
 				_this.make("GET", "/api/students/" + _this.access.user_id, {
 					query: {
@@ -256,7 +290,7 @@ class Client {
 		return new Promise(function (resolve, reject) {
 			_this.client.make("GET", "/api/public/teachers/" + id)
 			.then(function (response) {
-				resolve(new Teacher(_this.client, _));
+				resolve(new Teacher(_this.client, response.teacher));
 			}).catch(function(err) {
 				reject(err);
 			});
