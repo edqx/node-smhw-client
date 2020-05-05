@@ -1,7 +1,5 @@
 class Access {
-	constructor(client, response) {
-		this.client = client;
-		
+	constructor(response) {
 		this.access_token = response.access_token;
 		this.token_type = response.token_type;
 		this.expires_in = response.expires_in;
