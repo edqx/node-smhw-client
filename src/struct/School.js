@@ -1,5 +1,6 @@
-const ContactInfo = require("./ContactInfo");
+const ContactInfo = require("./ContactInfo.js");
 const SchoolIncomplete = require("./SchoolIncomplete.js");
+const ClassGroup = require("./ClassGroup.js");
 
 class School extends SchoolIncomplete {
 	constructor(client, response) {
@@ -35,6 +36,32 @@ class School extends SchoolIncomplete {
 		this.new_students_list_enabled = response.new_students_list_enabled;
 		
 		this.incomplete = false;
+	}
+
+	getClassGroups(...ids) {
+		var _this = this;
+		
+		if (Array.isArray(ids[0])) {
+			ids = ids[0];
+		}
+		
+		var class_groups;
+		if (ids.length) {
+			class_groups = ids.map(cid => "ids%5B%5D=" + cid).join("&");
+		} else {
+			lass_groups = _this.class_group_ids.map(cid => "ids%5B%5D=" + cid).join("&");
+		}
+		
+		return new Promise(function (resolve, reject) {
+			_this.client.make("GET", "/api/class_groups/" + _this.id, {
+				referer: "/todos/issued"
+			})
+			.then(function (response) {
+				resolve(response.class_groups.map(_ => new ClassGroup(_this.client, _)));
+			}).catch(function(err) {
+				reject(err);
+			});
+		});
 	}
 }
 

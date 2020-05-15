@@ -15,32 +15,6 @@ class Submission {
 		this.event_ids = response.event_ids;
 		this.comment_ids = response.comment_ids;
 	}
-	
-	getComments(...ids) {
-		var _this = this;
-		
-		if (Array.isArray(ids[0])) {
-			ids = ids[0];
-		}
-		
-		var comments;
-		if (ids.length) {
-			comments = ids.map(cid => "ids%5B%5D=" + cid).join("&");
-		} else {
-			comments = _this.comment_ids.map(cid => "ids%5B%5D=" + cid).join("&");
-		}
-		
-		return new Promise(function (resolve, reject) {
-			_this.client.make("GET", "/api/submission_comments?" + comments, {
-				referer: "/todos/issued"
-			})
-			.then(function (response) {
-				resolve(response.submission_comments.map(_ => new SubmissionComment(_this.client, _)));
-			}).catch(function(err) {
-				reject(err);
-			});
-		});
-	}
 }
 
 module.exports = Submission;

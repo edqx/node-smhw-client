@@ -1,5 +1,6 @@
 const Submission = require("./Submission.js");
 const SubmissionComment = require("./SubmissionComment.js");
+const HomeworkSubmissionVersion = require("./HomeworkSubmissionVersion.js");
 
 class HomeworkSubmission extends Submission {
 	constructor(client, response) {
@@ -36,6 +37,55 @@ class HomeworkSubmission extends Submission {
 			})
 			.then(function (response) {
 				resolve(new SubmissionComment(_this.client, response.submission_comment));
+			}).catch(function(err) {
+				reject(err);
+			});
+		});
+	}
+
+	getComments(...ids) {
+		var _this = this;
+		
+		if (Array.isArray(ids[0])) {
+			ids = ids[0];
+		}
+		
+		var comments;
+		if (ids.length) {
+			comments = ids.map(cid => "ids%5B%5D=" + cid).join("&");
+		} else {
+			comments = _this.comment_ids.map(cid => "ids%5B%5D=" + cid).join("&");
+		}
+		
+		return new Promise(function (resolve, reject) {
+			_this.client.make("GET", "/api/homework_submissions/" + _this.id, {
+				referer: "/todos/issued"
+			})
+			.then(function (response) {
+				resolve(response.submission_comments.filter(_ => comments.indexOf(_.id) !== -1).map(_ => new SubmissionComment(_this.client, _)));
+			}).catch(function(err) {
+				reject(err);
+			});
+		});
+	}
+
+	getVersions(...ids) {
+		var _this = this;
+		
+		if (Array.isArray(ids[0])) {
+			ids = ids[0];
+		}
+		
+		if (!ids.length) {
+			ids = _this.version_ids;
+		}
+		
+		return new Promise(function (resolve, reject) {
+			_this.client.make("GET", "/api/homework_submissions/" + _this.id, {
+				referer: "/todos/issued"
+			})
+			.then(function (response) {
+				resolve(response.submission_versions.map(_ => new HomeworkSubmissionVersion(_this.client, _)).filter(_ => ids.indexOf(_.id) !== -1));
 			}).catch(function(err) {
 				reject(err);
 			});
