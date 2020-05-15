@@ -1,6 +1,6 @@
 {
   "name": "node-smhw-client",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A ShowMyHomework API Wrapper/Client",
   "main": "index.js",
   "directories": {
