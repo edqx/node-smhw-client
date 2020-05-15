@@ -42,6 +42,7 @@ class Client {
 		
 		this.access = new Access(this, {});
 		this.student = null;
+		this.school = null;
 		this.user = null;
 		
 		this.heartbeat = null;
@@ -90,7 +91,8 @@ class Client {
 						include: "user_private_info,school",
 					}
 				}).then(function (response) {
-					_this.student = new Student(_this, response.student, new School(_this, response.schools[0]));
+					_this.student = new Student(_this, response.student);
+					_this.school = new School(_this, response.schools[0]);
 					_this.user = new UserPrivateInfo(_this, response.user_private_infos[0]);
 					
 					resolve(true);

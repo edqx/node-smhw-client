@@ -2,7 +2,7 @@ const ClassGroup = require("./ClassGroup.js");
 const User = require("./User.js");
 
 class Student extends User {
-	constructor(client, response, school) {
+	constructor(client, response) {
 		super(client, response);
 		
 		this.year = response.year;
@@ -11,7 +11,6 @@ class Student extends User {
 		this.tags = response.tags;
 		this.gender = response.gender;
 		this.invite_code = response.invite_code;
-		this.school = school;
 		this.invite_code_expirary_date = response.invite_code_expires_on;
 		this.class_groups = response.class_group_ids;
 		this.student_categories = response.student_category_ids;
